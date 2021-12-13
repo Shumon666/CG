@@ -1,0 +1,84 @@
+#include <windows.h>
+#include <GL/glut.h>
+
+GLfloat i = 0.1f;
+GLfloat j = 0.1f;
+GLfloat s = 0.0f;
+GLfloat k = 0.0f;
+
+
+void initGL()
+{
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Black and opaque
+}
+
+void Idle()
+{
+    glutPostRedisplay();//// marks the current window as needing to be redisplayed
+}
+void display()
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+    glLoadIdentity();//Reset the current matrix
+
+
+  glPushMatrix(); //glPushMatrix copies the top matrix and pushes it onto the stack, while glPopMatrix pops the top matrix off the stack
+    glTranslatef(i, j, 0.0f);
+    glScalef(s,s,0);
+    glRotatef(k,0.0,0.0,1.0);
+
+
+   // glTranslatef(0.f,0.0f,0.f);
+    /*glBegin(GL_QUADS);
+glColor3f(1.0f, 0.0f, 0.0f);
+glVertex2f(0.1f, 0.1f);
+    glVertex2f( 0.6f, 0.1f);
+    glVertex2f( 0.6f, 0.5f);
+    glVertex2f( 0.1f, 0.5f);
+*/
+
+    glBegin(GL_QUADS);               // Each set of 4 vertices form a quad
+      glColor3f(1.0f, 0.0f, 1.0f);  // Red
+      glVertex2f(-0.1f, -0.1f);     // Define vertices in counter-clockwise (CCW) order
+      glVertex2f( 0.1f, -0.1f);     //  so that the normal (front-face) is facing you
+      glVertex2f( 0.1f,  0.1f);
+      glVertex2f(-0.1f,  0.1f);
+
+
+    glEnd();
+
+    glPopMatrix();//while glPopMatrix pops the top matrix off the stac
+
+    glEnd();
+      if(i<=1)
+  {
+        i+=0.00005f;
+        j+=0.00001f;
+        s+=0.0001f;
+        k+=0.1f;
+
+
+  }
+  else{
+    i = 0.0f;
+    j = 0.0f;
+    s=-0.0f;
+    k=0.0f;
+  }
+
+    glFlush();
+
+
+}
+
+int main(int argc, char** argv)
+{
+    glutInit(&argc, argv);          // Initialize GLUT
+    glutInitWindowSize(320, 320);
+    glutCreateWindow("Model Transform");
+    glutDisplayFunc(display);//
+    initGL();
+    glutIdleFunc(Idle);//glutIdleFunc sets the global idle callback to be func so a GLUT program can perform background processing tasks or continuous animation when window system events are not being received.
+    glutMainLoop();
+    return 0;
+}
